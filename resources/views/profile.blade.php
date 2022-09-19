@@ -31,7 +31,7 @@
 		        		<label><b>User Email *</b></label>
 		        		<input type="text" name="email" class="form-control" placeholder="Email" value="{{ $data->email }}" />
 		        		@if($errors->has('email'))
-		        		<span class="text-danger">{{ $errors->has('email') }}</span>
+		        		<span class="text-danger">{{ $errors->first('email') }}</span>
 		        		@endif
 		        	</div>
 		        	<div {{$hidden}} class="form-group mb-3">
