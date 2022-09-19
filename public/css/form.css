@@ -1,0 +1,33 @@
+body {
+	font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+}
+
+
+div.container {
+	min-width: 980px;
+	margin: 0 auto;
+}
+.footer1 {
+    height: 25px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+  }
+  .datatable_margin{
+    margin-bottom:52px;
+  }
+
+  .btn-margin-left{
+    margin-left:4px;
+  }
+  .table-margin{
+    margin-left:12px;
+  }
