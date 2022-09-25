@@ -1,96 +1,93 @@
 @extends('dashboard')
 
 @section('content')
-<h2 class="mt-5">Sub User Management</h2>
-<nav aria-label="breadcrumb">
-  	<ol class="breadcrumb">
-    	<li class="breadcrumb-item"><a href="/information">Dashboard</a></li>
-    	<li class="breadcrumb-item active">Sub Management</li>
-  	</ol>
-</nav>
-
-<div class="mt-4 mb-4">
-	@if(session()->has('success'))
+@if(session()->has('success'))
 	<div class="alert alert-success">
 		{{ session()->get('success') }}
 	</div>
 	@endif
-	<div class="card">
-		<div class="card-header">
-			<div class="row">
-				<div class="col col-md-6">Sub User Management</div>
-				<div class="col col-md-6">
-					<a href="{{ route('sub_user.add') }}" class="btn btn-success btn-sm float-end">Add</a>
-				</div>
-			</div>
-		</div>
-		<div class="card-body">
-			<div class="table-responsive">
-				<table class="table table-bordered" id="user_table">
-					<thead>
-						<tr>
-							<th>Name</th>
+<div class="page-heading">
+    <h1 class="page-title">Sub User Management</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="index.html"><i class="la la-home font-20"></i></a>
+        </li>
+        {{-- <li class="breadcrumb-item">Sub User Management</li> --}}
+    </ol>
+</div>
+<div class="page-content fade-in-up">
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Sub user</div>
+            {{-- <div><a href="{{ route('sub_user.add') }}" class="fa fa-plus fa-lg float-end">Add</a></div> --}}
+            <div><a href="{{ route('sub_user.add') }}"><i class="fa fa-plus fa-md float-end"></i> Add</a></div>
+        </div>
+        <div class="ibox-body">
+
+
+            <table class="table table-striped table-bordered table-hover" id="user_table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                            <th>Name</th>
 							<th>Email</th>
 							<th>Created At</th>
 							<th>Updated At</th>
                             <th>User Stauts</th>
 							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                            <th>Name</th>
+							<th>Email</th>
+							<th>Created At</th>
+							<th>Updated At</th>
+                            <th>User Stauts</th>
+							<th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach($data as $subuser)
+                    <tr>
+                    <td>{{$subuser->name}}</td>
+                    <td>{{$subuser->email}}</td>
+                    <td>{{$subuser->created_at}}</td>
+                    <td>{{$subuser->updated_at}}</td>
+                    <td>
+
+                        @if($subuser->user_status=="Enable")
+                          <label class="switch">
+                            <input type="checkbox" class="Statusupdate" checked name="status" id="status-{{$subuser->id}}" data-id={{$subuser->id}} value="Enable">
+                            <span class="slider round"></span>
+                          </label>
+                        @else
+                        <label class="switch">
+                            <input type="checkbox" class="Statusupdate" name="status" id="status-{{$subuser->id}}" data-id={{$subuser->id}} value="Disable">
+                            <span class="slider round"></span>
+                          </label>
+                        @endif
+
+                    </td>
+                    <td>
+                        <a href="/sub_user/edit/{{$subuser->id}}" class="fa fa-pencil fa-lg"></a>
+                    </td>
+                </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<script>
-$(function(){
+<script type="text/javascript">
+    $(function() {
+        $('#user_table').DataTable({
+            pageLength: 10,
+            responsive: true,
+            scrollX: true,
 
-	var table = $('#user_table').DataTable({
-		processing:true,
-		serverSide:true,
-		ajax:"{{ route('sub_user.fetchall') }}",
-		columns:[
-			{
-				data:'name',
-				name:'name'
-			},
-			{
-				data:'email',
-				name:'email'
-			},
-			{
-				data:'created_at',
-				name:'created_at'
-			},
-			{
-				data:'updated_at',
-				name:'updated_at'
-			},
-            {
-				data:'user_status',
-				name:'user_status'
-			},
-			{
-				data:'action',
-				name:'action',
-				orderable:false
-			}
-		]
-	});
+        });
+    })
 
-	$(document).on('click', '.delete', function(){
-
-		var id = $(this).data('id');
-
-		if(confirm("Are you sure you want to remove it?"))
-		{
-			window.location.href = "/sub_user/delete/" + id;
-		}
-
-	});
-
-})
 </script>
 <script>
     $("document").ready(function(){
@@ -98,7 +95,36 @@ $(function(){
            $("div.alert").remove();
         }, 5000 ); // 5 secs
 
+        // $('#user_table').DataTable();
+        $(document).on("click", ".Statusupdate" , function() {
+            // console.log("hello");
+        var edit_id = $(this).data('id');
+        var name = $('#status-'+edit_id).val();
+// $User_status=$(this).val();
+// $("#visitor_meet").html('');
+$.ajax({
+    type:'POST',
+
+    url: "{{url('user_status')}}",
+    dataType:"json",
+
+    data: {
+        editid: edit_id,
+        statusName: name,
+        _token: '{{csrf_token()}}'
+    },
+    success: function(response){
+       console.log("Data added Sucessfully");
+      }
+ });
+});
+
+
     });
     </script>
+
+
+
+
 
 @endsection

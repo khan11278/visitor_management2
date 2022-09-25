@@ -1,159 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Visitor Management System in Laravel</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    {{-- <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Visitor Management System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="{{asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/vendors/themify-icons/css/themify-icons.css')}}" rel="stylesheet" />
+    <!-- PLUGINS STYLES-->
+    <link href="{{asset('assets/vendors/jvectormap/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet" />
+    <!-- THEME STYLES-->
+    <link href="{{asset('assets/css/main.min.css')}}" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Datatable -->
+    <link href="{{asset('assets/vendors/DataTables/datatables.min.css')}}" rel="stylesheet" />
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script> --}}
+    <!--Custom Css -->
+    <link href="{{asset('css/form.css')}}" rel="stylesheet" />
 
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
-
-    <script src="{{asset('js/form.js')}}"></script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css" />
-
-    {{-- 13-sep-2022  --}}
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css.map">
-    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js.map"></script> --}}
-
-    <meta charset=utf-8 />
 </head>
-<body>
-
     @guest
-    <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
-    <h1 class="mt-4 mb-5 text-center">Visitor Management System</h1>
+        <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+        <h1 class="mt-4 mb-5 text-center">Visitor Management System</h1>
 
-    @yield('content')
-
+        @yield('content')
     @else
 
-    <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
-    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap5.min.css')}}">
-    {{-- ///////// --}}
-    <link rel="stylesheet" href="{{asset('css/form.css')}}">
-    {{-- /////// --}}
-    {{-- <script src="{{asset('js/jquery.js')}}"></script> --}}
-    {{-- <script src="{{asset('js/jquery.dataTables.min.js')}}"></script> --}}
-    {{-- <script src="{{asset('js/dataTables.bootstrap5.min.js')}}"></script> --}}
-    {{-- ////////// --}}
-    {{-- <script src="{{asset('js/dataTables.bootstrap5.min.js')}}"></script> --}}
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
-    {{-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> --}}
-
-    {{-- //////////// --}}
-
-    <header class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <div class="d-flex justify-content-start">
-            {{-- <div class="m-2"> --}}
-                <img id="imgPrevie"  class="fieldlabels col-lg-6 col-md-6" height="40" src="{{asset('uploads/'.'1/'.'123.jpg')}}" alt="Preview">
-            {{-- </div> --}}
-                <a class="navbar-brand col-md-4 col-lg-auto me-0 px-3"  href="#">Visitor Management</a>
-        </div>
-        {{-- <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> --}}
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#">Welcome, {{ Auth::user()->email }}</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'information' ? 'active' : '' }}"   aria-current="page" href="/information">Information</a>
-                            <hr style="margin:0px 0px;padding:1px 1px;">
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'profile' ? 'active' : '' }}" aria-current="page" href="/profile">Profile</a>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-                        </li>
-                        @if(Auth::user()->type == 'Admin')
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'settings' ? 'active' : '' }}" aria-current="page" href="/settings">Settings</a>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'sub_user' ? 'active' : '' }}" aria-current="page" href="/sub_user">Sub User</a>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'department' ? 'active' : '' }}" aria-current="page" href="/department">Department</a>
-                            <hr style="margin:0.2px 0px; padding:1px 1px;">
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'employee' ? 'active' : '' }}" aria-current="page" href="/employee">Employee</a>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-                        </li>
-                        @endif
-
-                       {{--  --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Visitor</a>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="/visitor">Visitor Report</a>
-                              <a class="dropdown-item" href="/visitor/info">Visitor Entry</a>
-                              {{-- <a class="dropdown-item" href="#">Link 3</a> --}}
-                            </div>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-                          </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link {{ Request::segment(1) == 'visitor' ? 'active' : '' }}" href="/visitor">Visitor</a>
-
-                            <hr style="margin:0px 0px; padding:1px 1px;">
-
-                        </li> --}}
-                      {{--  --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
-                            <hr style="margin:0px 0px; padding:1px 1px;">
+    <body class="fixed-navbar">
+        <div class="page-wrapper">
+            <!-- START HEADER-->
+            <header class="header">
+                <div class="page-brand">
+                    <a class="link" href="index.html">
+                       <h6> <span class="brand">Visitor Management System
+                            {{-- <span class="brand-tip"></span> --}}
+                        </span>
+                    </h6>
+                        {{-- <span class="brand-mini">AC</span> --}}
+                    </a>
+                </div>
+                <div class="flexbox flex-1">
+                    <!-- START TOP-LEFT TOOLBAR-->
+                    <ul class="nav navbar-toolbar">
+                        <li>
+                            <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="ti-menu"></i></a>
                         </li>
 
                     </ul>
 
+                    <!-- END TOP-LEFT TOOLBAR-->
+                    <!-- START TOP-RIGHT TOOLBAR-->
+                    <ul class="nav navbar-toolbar">
+
+
+                        <li class="dropdown dropdown-user">
+                            <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                                <img src="{{asset('assets/img/admin-avatar.png')}}" />
+                                <span></span> {{ Auth::user()->email }}</a>
+
+                        </li>
+                    </ul>
+                    <!-- END TOP-RIGHT TOOLBAR-->
+                </div>
+            </header>
+            <!-- END HEADER-->
+            <!-- START SIDEBAR-->
+            <nav class="page-sidebar" id="sidebar">
+                <div id="sidebar-collapse">
+                    <div class="admin-block d-flex">
+                        <div>
+                            {{-- <img src="{{asset('assets/img/admin-avatar.png" width="45px" /> --}}
+                            {{-- <div class="d-flex justify-content-start"> --}}
+
+                                <img id="imgPrevie"  class="fieldlabels col-lg-12 col-md-12" height="42px" width="15px" src="{{asset('uploads/'.'1/'.'123.jpg')}}" alt="Preview">
+
+
+                        {{-- </div> --}}
+                        </div>
+                        <div class="admin-info">
+                            <div class="font-strong"> {{ Auth::user()->name }}</div><small> {{ Auth::user()->type }}</small>
+                        </div>
+                    </div>
+                    <ul class="side-menu metismenu">
+                        {{-- <li>
+                            <a class="active" href="index.html"><i class="sidebar-item-icon fa fa-th-large"></i>
+                                <span class="nav-label">Dashboard</span>
+                            </a>
+                        </li> --}}
+                        <li class="heading">Menu</li>
+                        <li>
+                            <a href="/information"><i class="sidebar-item-icon fa fa-info-circle"></i>
+                                <span class="nav-label">Information</span></a>
+
+                        </li>
+                        <li>
+                            <a href="/profile"><i class="sidebar-item-icon fa fa-user-secret"></i>
+                                <span class="nav-label">Profile</span></i></a>
+
+                        </li>
+                        @if(Auth::user()->type == 'Admin')
+                        <li>
+                            <a href="/settings"><i class="sidebar-item-icon fa fa-cog"></i>
+                                <span class="nav-label">Settings</span></i></a>
+
+                        </li>
+                        <li>
+                            <a href="/sub_user"><i class="sidebar-item-icon fa fa-user-circle"></i>
+                                <span class="nav-label">Sub User</span></i></a>
+
+                        </li>
+                        <li>
+                            <a href="/department"><i class="sidebar-item-icon fa fa-building-o"></i>
+                                <span class="nav-label">Departments</span></a>
+                        </li>
+                        <li>
+                            <a href="/employee"><i class="sidebar-item-icon fa fa-users"></i>
+                                <span class="nav-label">Employee</span></a>
+                        </li>
+                        @endif
+                        <li>
+                            <a href="javascript:;"><i class="sidebar-item-icon fa fa-meetup"></i>
+                                <span class="nav-label">Visitor</span><i class="fa fa-angle-left arrow"></i></a>
+                            <ul class="nav-2-level collapse">
+                                <li>
+                                    <a href="/visitor">Visitor Report</a>
+                                </li>
+                                <li>
+                                    <a href="/visitor/info">Visitor Entry</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"><i class="sidebar-item-icon fa fa-sign-out"></i>
+                                <span class="nav-label">Logout</span></a>
+                        </li>
+                        {{-- <li>
+                            <a href="icons.html"><i class="sidebar-item-icon fa fa-smile-o"></i>
+                                <span class="nav-label">Icons</span>
+                            </a>
+                        </li> --}}
+
+
+
+
+                    </ul>
                 </div>
             </nav>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 datatable_margin">
-                <!--<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">!-->
-                    {{-- <h2 class="mt-3">Analytics</h2> --}}
-                @yield('content')
+            <!-- END SIDEBAR-->
 
-                <!--</div>!-->
-            </main>
+
+
+
+            <div class="content-wrapper">
+                <main class="mt-2">
+                @yield('content')
+                </main>
+                <!-- END PAGE CONTENT-->
+                <footer class="page-footer">
+                    <div class="font-13">2022 © <b>Roshan Khan</b> - All rights reserved.</div>
+                    {{-- <a class="px-4"
+                        href="http://themeforest.net/item/adminca-responsive-bootstrap-4-3-angular-4-admin-dashboard-template/20912589"
+                        target="_blank">BUY PREMIUM</a> --}}
+                    <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
+                </footer>
+            </div>
         </div>
-    </div>
+        <!-- BEGIN THEME CONFIG PANEL-->
+
+        <!-- END THEME CONFIG PANEL-->
+        <!-- BEGIN PAGA BACKDROPS-->
+        <div class="sidenav-backdrop backdrop"></div>
+        <div class="preloader-backdrop">
+            <div class="page-preloader">Loading</div>
+        </div>
+        <!-- END PAGA BACKDROPS-->
+        <!-- CORE PLUGINS-->
+        <style>
+            .visitors-table tbody tr td:last-child {
+                display: flex;
+                align-items: center;
+            }
+
+            .visitors-table .progress {
+                flex: 1;
+            }
+
+            .visitors-table .progress-parcent {
+                text-align: right;
+                margin-left: 10px;
+            }
+        </style>
+        <script src="{{asset('assets/vendors/jquery/dist/jquery.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/popper.js/dist/umd/popper.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/metisMenu/dist/metisMenu.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>
+        <!-- PAGE LEVEL PLUGINS-->
+        <script src="{{asset('assets/vendors/chart.js/dist/Chart.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/jvectormap/jquery-jvectormap-2.0.3.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/jvectormap/jquery-jvectormap-us-aea-en.js')}}" type="text/javascript"></script>
+        <!-- CORE SCRIPTS-->
+        <script src="{{asset('assets/js/app.min.js')}}" type="text/javascript"></script>
+        <!-- PAGE LEVEL SCRIPTS-->
+        <script src="{{asset('assets/js/scripts/dashboard_1_demo.js')}}" type="text/javascript"></script>
+        <script src="{{asset('assets/vendors/DataTables/datatables.min.js')}}" type="text/javascript"></script>
 
     @endguest
 
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    @if(request()->segment(1)!='login' && request()->segment(1)!='')
-    <footer class="footer1" style="text-align: center;">
-        {{-- <hr> --}}
-        <p>Visitor Management System
-            &copy; Copyright 2022 Roshan Khan
-        </p>
-      </footer>
-      @endif
-</body>
-</html>
+    </body>
+
+    </html>

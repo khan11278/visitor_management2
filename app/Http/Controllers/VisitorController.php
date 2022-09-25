@@ -219,7 +219,7 @@ private function collection_departmentWithEnabledEmployee(){
         $request->validate([
             'name'          =>  'required',
             'visitor_email' => 'required|email|unique:visitors',
-            'visitor_mobile_no'       => 'required|regex:/[0-9]{9}/|unique:visitors',
+            'visitor_mobile_no'       => 'required|numeric|digits_between:1,10|unique:visitors',
             'address'       => 'required|string|max:255',
             // 'visitor_meet'  => 'required|string|max:255',
             'dept'          => 'required',
@@ -380,7 +380,7 @@ private function collection_departmentWithEnabledEmployee(){
         //     $visitor->save();
 
 
-         session()->flash('success', 'You have Successfully Registered');
+         session()->flash('success1', 'You have Successfully Registered');
 
         // dd("success");
         return redirect('/visitor/info');
@@ -412,7 +412,7 @@ private function collection_departmentWithEnabledEmployee(){
             // 'password'      =>  'required|min:6',
             'name'          =>  'required',
             'visitor_email' => 'required|email',
-            'visitor_mobile_no'       => 'required|regex:/[0-9]{9}/',
+            'visitor_mobile_no'       =>  'required|numeric|digits_between:1,10',
             'address'       => 'required|string|max:255',
             'visitor_meet'  => 'required|string|max:255',
             'dept'          => 'required|string|max:255',
@@ -485,7 +485,7 @@ private function collection_departmentWithEnabledEmployee(){
         $request->validate([
             'name'          =>  'required',
             'visitor_email' => 'required|email',
-            'visitor_mobile_no'       => 'required|regex:/[0-9]{9}/',
+            'visitor_mobile_no'       =>  'required|numeric|digits_between:1,10',
             'address'       => 'required|string|max:255',
             // 'visitor_meet'  => 'required|string|max:255',
             'dept'          => 'required',
@@ -570,7 +570,7 @@ private function collection_departmentWithEnabledEmployee(){
         }
             // $visitor->visitor_token=$request['visitor_token'];
 
-         session()->flash('success', 'You have Successfully Registered');
+         session()->flash('success1', 'You have Successfully Registered');
 
         // dd("success");
         return redirect('/visitor/info');

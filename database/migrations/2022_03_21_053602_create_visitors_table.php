@@ -17,7 +17,8 @@ class CreateVisitorsTable extends Migration
             $table->id();
             $table->string('visitor_name');
             $table->string('visitor_email');
-            $table->integer('visitor_mobile_no');
+            // $table->integer('visitor_mobile_no');
+            $table->integer('visitor_mobile_no', 15);
             $table->string('visitor_address');
             $table->timestamps();
         });

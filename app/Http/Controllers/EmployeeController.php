@@ -15,15 +15,33 @@ class EmployeeController extends Controller
         // $dept=Department::all();
         return view('employee')->with(compact('employee'));
     }
+
+    public function employeeStatus(Request $request){
+        // dd($request);
+            $employeeStatus = Employee::find($request->editid);
+           if($request-> statusName == "Enable")
+            {
+                $employeeStatus->employee_status = "Disable";
+            }
+            else{
+                $employeeStatus->employee_status = "Enable";
+            }
+            // $data['dept']=$employeeStatus->employee()->where('employee_status', '=', 'Enable')->get();
+            $employeeStatus->save();
+            // echo 'Update successfully.';
+            // // return response()->json($data);
+            // exit;
+        }
     public function employee_add(){
         $department =Department::all();
+        $title="Add New Employee";
         $count=$department->count();
         $emp_dept=[];
         $arr=[];
         $status=array('Active','Inactive');
         $url=route('employee_create');
         $employee=new Employee;
-        $data= compact('department','count','employee','emp_dept','url','arr','status');
+        $data= compact('department','count','employee','emp_dept','url','arr','status','title');
         return view('employee_add')->with($data);
     }
     public function employee_create(Request $request){
@@ -82,6 +100,7 @@ class EmployeeController extends Controller
     // }
     public function employee_edit($id){
         $employee=Employee::find($id);
+        $title="Edit Employee";
         $arr=[];
         foreach($employee->department as $depart1){
           array_push($arr,$depart1['id']);
@@ -98,7 +117,7 @@ class EmployeeController extends Controller
         $url=url('/employee/update').'/'.$id;
         $department =Department::all();
         $count=$department->count();
-        $data= compact('department','count','employee','arr','url');
+        $data= compact('department','count','employee','arr','url','title');
         return view('employee_add')->with($data);
     }
     public function employee_update(Request $request,$id){

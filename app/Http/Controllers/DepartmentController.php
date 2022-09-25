@@ -17,27 +17,45 @@ class DepartmentController extends Controller
         $this->middleware('auth');
     }
 
+    public function departmentStatus(Request $request){
+        // dd($request);
+            $deptStatus = Department::find($request->editid);
+           if($request->statusName == "Enable")
+            {
+                $deptStatus->department_status = "Disable";
+            }
+            else{
+                $deptStatus->department_status = "Enable";
+            }
+            // $data['dept']=$deptStatus->employee()->where('employee_status', '=', 'Enable')->get();
+            $deptStatus->save();
+            // echo 'Update successfully.';
+            // // return response()->json($data);
+            // exit;
+        }
+
     public function index()
     {
-        return view('department');
+        $data = Department::all();
+        return view('department')->with(compact('data'));
     }
 
-    function fetch_all(Request $request)
-    {
-        if($request->ajax())
-        {
-            // $data = Department::latest()->get();
-            $data = Department::all();
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    // return '<a href="/department/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>&nbsp;<button type="button" class="btn btn-danger btn-sm delete" data-id="'.$row->id.'">Delete</button>';
-                    return '<a href="/department/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-    }
+    // function fetch_all(Request $request)
+    // {
+    //     if($request->ajax())
+    //     {
+    //         // $data = Department::latest()->get();
+    //         $data = Department::all();
+    //         return DataTables::of($data)
+    //             ->addIndexColumn()
+    //             ->addColumn('action', function($row){
+    //                 // return '<a href="/department/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>&nbsp;<button type="button" class="btn btn-danger btn-sm delete" data-id="'.$row->id.'">Delete</button>';
+    //                 return '<a href="/department/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>';
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+    // }
 
     function add()
     {

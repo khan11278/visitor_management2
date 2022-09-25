@@ -18,7 +18,7 @@ class SecureProtection
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user()->type=="Admin") {
+        if (Auth::check() && Auth::user()->type=="Admin") {
             return $next($request);
         }
         return  redirect('/');

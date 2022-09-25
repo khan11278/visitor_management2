@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use DataTables;
-
+// use Yajra\DataTables\Services\DataTable;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -21,26 +21,44 @@ class SubUserController extends Controller
 
     public function index()
     {
-        return view('sub_user');
+        $data = User::where('type', '=', 'User')->get();
+        return view('sub_user')->with(compact('data'));
     }
 
-    function fetch_all(Request $request)
-    {
-        // dd($request->ajax());
-        if($request->ajax())
-        {
-            $data = User::where('type', '=', 'User')->get();
-
-            return DataTables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-                        // return '<a href="/sub_user/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>&nbsp;<button type="button" class="btn btn-danger btn-sm delete" data-id="'.$row->id.'">Delete</button>';
-                        return '<a href="/sub_user/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>';
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+    // function fetch_all(Request $request)
+    // {
+    //     // dd($request->ajax());
+    //     if($request->ajax())
+    //     {
+    //         $data = User::where('type', '=', 'User')->get();
+    //         return view();
+    //         // return DataTables::of($data)
+    //         //         ->addIndexColumn()
+    //         //         ->addColumn('action', function($row){
+    //         //             // return '<a href="/sub_user/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>&nbsp;<button type="button" class="btn btn-danger btn-sm delete" data-id="'.$row->id.'">Delete</button>';
+    //         //             return '<a href="/sub_user/edit/'.$row->id.'" class="btn btn-primary btn-sm">Edit</a>';
+    //         //         })
+    //         //         ->rawColumns(['action'])
+    //         //         ->make(true);
+    //     }
+    // }
+    public function userStatus(Request $request){
+        // dd($request);
+            $userStatus = User::find($request->editid);
+           if($request-> statusName == "Enable")
+            {
+                $userStatus->user_status = "Disable";
+            }
+            else{
+                $userStatus->user_status = "Enable";
+            }
+            // $data['dept']=$userStatus->employee()->where('employee_status', '=', 'Enable')->get();
+            $userStatus->save();
+            // echo 'Update successfully.';
+            // // return response()->json($data);
+            // exit;
         }
-    }
+
 
     function add()
     {
