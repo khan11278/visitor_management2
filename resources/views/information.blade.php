@@ -1,36 +1,45 @@
 @extends('dashboard')
 
 @section('content')
-<h2 class="mt-5">Analytics</h2>
-<nav aria-label="breadcrumb">
-  	<ol class="breadcrumb">
-    	<li class="breadcrumb-item"><a href="/information">Dashboard</a></li>
-    	{{-- <li class="breadcrumb-item"><a href="/sub_user">Sub Management</a></li> --}}
-    	<li class="breadcrumb-item active">Information</li>
-  	</ol>
-</nav>
-
-<div class="row mt-12">
-	<div class="col-md-3">
-		<div class="card bg-primary text-white">
-            <div class="card-body">Total Today Visitor<br>{{$todayCount}}</div>
-
-          </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-warning text-white">
-            <div class="card-body">Total Yesterday Visitor<br>{{$yesterdayCount}}</div>
-          </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-success text-white">
-            <div class="card-body">Total Last 7 Days Visitors<br>{{$weekCount}}</div>
-          </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card bg-danger text-white">
-            <div class="card-body">Total Visitor Till Day<br>{{$totalCount}}</div>
-          </div>
+   <!-- START PAGE CONTENT-->
+   <div  hhclass="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{$todayCount}}</h2>
+                    <div class="m-b-5">Total Today Visitor</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    {{-- <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{$yesterdayCount}}</h2>
+                    <div class="m-b-5">Total Yesterday Visitor</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    {{-- <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{$weekCount}}</h2>
+                    <div class="m-b-5">Total Last 7 Days Visitors</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    {{-- <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-danger color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{$totalCount}}</h2>
+                    <div class="m-b-5">Total Visitor Till Day</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    {{-- <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div> --}}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

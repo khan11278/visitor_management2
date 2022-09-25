@@ -30,6 +30,8 @@ Route::group(['middleware' => 'admin_rights'], function () {
     Route::get('employee/add', [EmployeeController::class, 'employee_add'])->name('employee_add');
     Route::post('employee/create', [EmployeeController::class, 'employee_create'])->name('employee_create');
 
+    Route::post('employee_status', [EmployeeController::class, 'employeeStatus'])->name('employeestatus');
+
     Route::get('employee/edit/{id}', [EmployeeController::class, 'employee_edit'])->name('employee_edit');
     Route::post('employee/update/{id}', [EmployeeController::class, 'employee_update'])->name('employee_update');
     Route::get('employee/delete/{id}', [EmployeeController::class, 'employee_delete'])->name('employee_delete');
@@ -40,7 +42,10 @@ Route::group(['middleware' => 'admin_rights'], function () {
 
     Route::get('sub_user', [SubUserController::class, 'index'])->name('sub_user');
 
-Route::get('sub_user/fetchall', [SubUserController::class, 'fetch_all'])->name('sub_user.fetchall');
+    Route::post('user_status', [SubUserController::class, 'userStatus'])->name('userstatus');
+
+
+    Route::get('sub_user/fetchall', [SubUserController::class, 'fetch_all'])->name('sub_user.fetchall');
 
 Route::get('sub_user/add', [SubUserController::class, 'add'])->name('sub_user.add');
 
@@ -53,6 +58,8 @@ Route::post('sub_user/edit_validation', [SubUserController::class, 'edit_validat
 // Route::get('sub_user/delete/{id}', [SubUserController::class, 'delete'])->name('delete');
 
 Route::get('department', [DepartmentController::class, 'index'])->name('department');
+
+Route::post('department_status', [DepartmentController::class, 'departmentStatus'])->name('departmentstatus');
 
 Route::get('department/fetch_all', [DepartmentController::class, 'fetch_all'])->name('department.fetch_all');
 
@@ -147,6 +154,7 @@ Route::post('visitor_meet', [VisitorController::class, 'visitor_meet'])->name('v
 /////1 Route::post('/visitor/out/{id}',[VisitorController::class,'visitor_out'])->name('visitor_out');
 
 Route::get('information', [InformationController::class, 'information'])->name('information');
+
 // Route::get('employee', [EmployeeController::class, 'employee'])->name('employee')->middleware('admin_rights');
 // Route::get('employee/add', [EmployeeController::class, 'employee_add'])->name('employee_add')->middleware('admin_rights');
 // Route::post('employee/create', [EmployeeController::class, 'employee_create'])->name('employee_create')->middleware('admin_rights');

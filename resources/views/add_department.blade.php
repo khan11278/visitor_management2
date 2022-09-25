@@ -1,99 +1,86 @@
 @extends('dashboard')
 
 @section('content')
-    <h2 class="mt-5">Department Management</h2>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/information">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="/department">Department Management</a></li>
-            <li class="breadcrumb-item active">Add New Department</li>
-        </ol>
-    </nav>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">Add New Department</div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('department.add_validation') }}">
-                        @csrf
-                        <div class="form-group mb-3">
-                            <label><b>Department Name *</b></label>
+
+@if(session()->has('success'))
+	<div class="alert alert-success">
+		{{ session()->get('success') }}
+	</div>
+@endif
+<div class="page-heading">
+    <h1 class="page-title">Add New Department</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/information"><i class="la la-home font-20"></i></a>
+        </li>
+        {{-- <li class="breadcrumb-item">Add New Department</li> --}}
+    </ol>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="ibox">
+            <div class="ibox-head">
+                <div class="ibox-title">Add New Department</div>
+                {{-- <div class="ibox-tools">
+                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item">option 1</a>
+                        <a class="dropdown-item">option 2</a>
+                    </div>
+                </div> --}}
+            </div>
+            <div class="ibox-body">
+                <form method="POST" action="{{ route('department.add_validation')  }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <label>Department Name <span class="text-danger">*</span></label>
                             <input type="text" name="department_name" class="form-control"
                                 value="{{ old('department_name') }}" />
                             @if ($errors->has('department_name'))
                                 <span class="text-danger">{{ $errors->first('department_name') }}</span>
                             @endif
                         </div>
-                        <div class="form-group mb-3">
-
-                            <label><b>Department Status *</b></label>
+                        <div class="col-sm-12 form-group">
+                            <label>Department Status <span class="text-danger">*</span></label>
                             <br>
                             <p fontsize="10px;">Enable
-                                <input name="dept_status" class="dept_status" type="checkbox" value="Enable"><br>
+                                <input name="dept_status" class="dept_status" type="radio" value="Enable">&nbsp;&nbsp;&nbsp;
                                 Disable
-                                <input name="dept_status" class="dept_status" type="checkbox" value="Disable"><br>
+                                <input name="dept_status" class="dept_status" type="radio" value="Disable"><br>
                                 @if ($errors->has('dept_status'))
                                     <span class="text-danger">{{ $errors->first('dept_status') }}</span>
                                 @endif
                             </p>
+                        </div>
+                    </div>
 
-                        </div>
-                        {{-- <div class="form-group mb-3">
-		        		<label><b>Contact Person</b></label>
-		        		<div class="row">
-		        			<div class="col col-md-10">
-		        				<input type="text" name="contact_person[]" class="form-control" />
-		        			</div>
-		        			<div class="col col-md-2">
-		        				<button type="button" name="add_person" id="add_person" class="btn btn-success btn-sm">+</button>
-		        			</div>
-		        		</div>
-		        		<div id="append_person"></div>
-		        	</div> --}}
-                        <div class="form-group mb-3">
-                            <input type="submit" class="btn btn-sm btn-primary" value="Add" />
-                        </div>
-                    </form>
-                </div>
+
+
+                    <div  class="form-group">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <a href="{{ url()->previous() }}"><button class="btn btn-secondary mx-1" type="button">Cancel</button></a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
     <script>
-        $(document).ready(function() {
+        $("document").ready(function(){
+            setTimeout(function(){
+               $("div.alert").remove();
+            }, 5000 ); // 5 secs
 
-                    $('.dept_status').on('change', function() {
+        });
+        $(document).ready(function() {
+        $('.dept_status').on('change', function() {
                         $('.dept_status').not(this).prop('checked', false);
 
                     });
-                        // var count_person = 0;
 
-                        // $(document).on('click', '#add_person', function(){
-
-                        // 	count_person++;
-
-                        // 	var html = `
-                    // 	<div class="row mt-2" id="person_`+count_person+`">
-                    // 		<div class="col-md-10">
-                    // 			<input type="text" name="contact_person[]" class="form-control department_contact_person" />
-                    // 		</div>
-                    // 		<div class="col-md-2">
-                    // 			<button type="button" name="remove_person" class="btn btn-danger btn-sm remove_person" data-id="`+count_person+`">-</button>
-                    // 		</div>
-                    // 	</div>
-                    // 	`;
-
-                        // 	$('#append_person').append(html);
-
-                        // });
-
-                        // $(document).on('click', '.remove_person', function(){
-
-                        // 	var button_id = $(this).data('id');
-
-                        // 	$('#person_'+button_id).remove();
-
-                        // });
-                    });
-    </script>
+    });
+        </script>
 @endsection
+
+

@@ -17,7 +17,7 @@ class SubUserRight
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->type=="User" && Auth::user()->user_status=="Enable") {
+        if (Auth::check() && Auth::user()->type=="User" && Auth::user()->user_status=="Enable") {
             return $next($request);
         }
         return  redirect('/');
